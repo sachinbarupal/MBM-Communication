@@ -1,11 +1,15 @@
-import {StatusBar, StyleSheet, View} from 'react-native';
+import {StatusBar, StyleSheet, Text, View} from 'react-native';
 import {Colors} from './theme/colors';
 import SignInScreen from './screens/SignInScreen';
-import * as React from 'react';
-import {DefaultTheme, PaperProvider} from 'react-native-paper';
+import {DefaultTheme, PaperProvider, Title} from 'react-native-paper';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import ProfileScreen from './screens/ProfileScreen';
+import {useState} from 'react';
+import HomeScreen from './screens/HomeScreen';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import SearchBar from './components/SearchBar';
+import TagScreen from './screens/TagScreen';
+import ChatScreen from './screens/ChatScreen';
 const theme = {
   ...DefaultTheme,
   colors: {
@@ -18,15 +22,56 @@ const theme = {
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
+  const [user, setUser] = useState(null);
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
-          name="SignInScreen"
-          options={{headerShown: false}}
-          component={SignInScreen}
-        />
-        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+        {!user ? (
+          <Stack.Screen name="SignInScreen" options={{headerShown: false}}>
+            {props => <SignInScreen {...props} setUser={setUser} />}
+          </Stack.Screen>
+        ) : (
+          <>
+            <Stack.Screen
+              name="Chats"
+              // component={HomeScreen}
+              options={{
+                headerRight: () => (
+                  <View style={styles.headerRight}>
+                    <SearchBar />
+                    <Icon
+                      name="account-circle"
+                      size={34}
+                      style={{paddingRight: 0}}
+                      onPress={() => setUser(false)}
+                      color={Colors.secondaryColor}
+                    />
+                  </View>
+                ),
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                },
+                headerTintColor: Colors.primaryColor,
+              }}>
+              {props => <HomeScreen {...props} user={user} />}
+            </Stack.Screen>
+
+            <Stack.Screen
+              name="InsideChat"
+              options={({route}) => ({
+                title: route.params.chat.name,
+                headerTintColor: Colors.lb,
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                },
+              })}>
+              {props => <ChatScreen {...props} user={user} />}
+            </Stack.Screen>
+
+            <Stack.Screen name="Tag Screen" component={TagScreen} />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -40,21 +85,17 @@ export default function App() {
           barStyle="dark-content"
           backgroundColor={Colors.primaryColor}
         />
-        {/* <View style={styles.container}> */}
         <Navigation />
-        {/* <SignInScreen /> */}
-        {/* </View> */}
       </PaperProvider>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  // container: {
-  // flex: 1,
-  // justifyContent: 'center',
-  // alignItems: 'center',
-  // backgroundColor: Colors.foreground,
-  // },
-  // container
+  headerRight: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginLeft: 'auto',
+  },
 });

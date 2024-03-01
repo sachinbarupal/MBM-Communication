@@ -3,13 +3,16 @@ import {
   KeyboardAvoidingView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import React, {useState} from 'react';
 import {Colors} from '../theme/colors';
 import {TextInput, Button} from 'react-native-paper';
+import Icon from 'react-native-vector-icons/AntDesign';
 
-export default function SignInScreen({navigation}) {
+//Sign In Screen
+export default function SignInScreen({navigation, setUser}) {
   const [mobileNumber, setMobileNumber] = useState('');
   const [password, setPassword] = useState('');
   const [profileName, setProfileName] = useState('');
@@ -17,6 +20,15 @@ export default function SignInScreen({navigation}) {
 
   return (
     <KeyboardAvoidingView style={styles.wrapper}>
+      <TouchableOpacity
+        onPress={() => setLogin(false)}
+        style={{
+          position: 'absolute',
+          top: 20,
+          right: 20,
+        }}>
+        {login && <Icon name="back" color={Colors.black} size={38} />}
+      </TouchableOpacity>
       <View>
         <Text style={styles.text}>Welcome To </Text>
         <Text style={styles.text}>MBM Communication</Text>
@@ -27,6 +39,7 @@ export default function SignInScreen({navigation}) {
           <TextInput
             value={mobileNumber}
             placeholder="123456789"
+            keyboardType="numeric"
             label="Mobile No."
             onChangeText={text => setMobileNumber(text)}
             mode="outlined"
@@ -75,7 +88,7 @@ export default function SignInScreen({navigation}) {
           disabled={!profileName}
           style={styles.loginBtn}
           mode="contained"
-          onPress={() => navigation.navigate('ProfileScreen')}>
+          onPress={() => setUser(profileName)}>
           login
         </Button>
       )}
