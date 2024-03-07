@@ -1,4 +1,4 @@
-import {StatusBar, StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, StatusBar, StyleSheet, Text, View} from 'react-native';
 import {Colors} from './theme/colors';
 import SignInScreen from './screens/SignInScreen';
 import {DefaultTheme, PaperProvider, Title} from 'react-native-paper';
@@ -79,15 +79,13 @@ const Navigation = () => {
 
 export default function App() {
   return (
-    <>
-      <PaperProvider theme={theme}>
-        <StatusBar
-          barStyle="dark-content"
-          backgroundColor={Colors.primaryColor}
-        />
-        <Navigation />
-      </PaperProvider>
-    </>
+    <PaperProvider theme={theme}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor={Colors.primaryColor}
+      />
+      <Navigation />
+    </PaperProvider>
   );
 }
 
