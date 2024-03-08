@@ -12,7 +12,7 @@ import {TextInput, Button} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 //Sign In Screen
-export default function SignInScreen({navigation, setUser}) {
+export default function SignInScreen({setUser}) {
   const [mobileNumber, setMobileNumber] = useState('');
   const [password, setPassword] = useState('');
   const [profileName, setProfileName] = useState('');

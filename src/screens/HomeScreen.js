@@ -4,6 +4,8 @@ import {Colors} from '../theme/colors';
 import {ChatListData} from '../data/ChatsData';
 import ChatCard from '../components/ChatCard';
 import {ActivityIndicator} from 'react-native-paper';
+import SearchBar from '../components/SearchBar';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 //HOME SCREEN
 export default function HomeScreen({navigation, user}) {
@@ -14,6 +16,21 @@ export default function HomeScreen({navigation, user}) {
     setChats(ChatListData);
     setLoading(false);
   };
+
+  navigation.setOptions({
+    headerRight: () => (
+      <View style={styles.headerRight}>
+        <SearchBar />
+        <Icon
+          name="account-circle"
+          size={34}
+          style={{paddingRight: 0}}
+          onPress={() => navigation.navigate('Profile Screen')}
+          color={Colors.secondaryColor}
+        />
+      </View>
+    ),
+  });
 
   useEffect(() => {
     getChats();
@@ -52,5 +69,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     flex: 1,
     paddingVertical: 3,
+  },
+  headerRight: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginLeft: 'auto',
   },
 });

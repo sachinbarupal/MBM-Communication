@@ -3,7 +3,6 @@ import React from 'react';
 import {Colors} from '../theme/colors';
 
 export default function ChatCard({chat, navigation}) {
-  // console.log(chat);
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('InsideChat', {chat})}

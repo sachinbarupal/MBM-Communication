@@ -1,15 +1,14 @@
-import {SafeAreaView, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {StatusBar} from 'react-native';
 import {Colors} from './theme/colors';
 import SignInScreen from './screens/SignInScreen';
-import {DefaultTheme, PaperProvider, Title} from 'react-native-paper';
+import {DefaultTheme, PaperProvider} from 'react-native-paper';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useState} from 'react';
 import HomeScreen from './screens/HomeScreen';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import SearchBar from './components/SearchBar';
 import TagScreen from './screens/TagScreen';
 import ChatScreen from './screens/ChatScreen';
+import ProfileScreen from './screens/ProfileScreen';
 const theme = {
   ...DefaultTheme,
   colors: {
@@ -35,20 +34,7 @@ const Navigation = () => {
           <>
             <Stack.Screen
               name="Chats"
-              // component={HomeScreen}
               options={{
-                headerRight: () => (
-                  <View style={styles.headerRight}>
-                    <SearchBar />
-                    <Icon
-                      name="account-circle"
-                      size={34}
-                      style={{paddingRight: 0}}
-                      onPress={() => setUser(false)}
-                      color={Colors.secondaryColor}
-                    />
-                  </View>
-                ),
                 headerTitleStyle: {
                   fontWeight: 'bold',
                 },
@@ -70,6 +56,11 @@ const Navigation = () => {
             </Stack.Screen>
 
             <Stack.Screen name="Tag Screen" component={TagScreen} />
+            <Stack.Screen name="Profile Screen">
+              {props => (
+                <ProfileScreen {...props} user={user} setUser={setUser} />
+              )}
+            </Stack.Screen>
           </>
         )}
       </Stack.Navigator>
@@ -88,12 +79,3 @@ export default function App() {
     </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  headerRight: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    marginLeft: 'auto',
-  },
-});
