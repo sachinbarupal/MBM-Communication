@@ -10,38 +10,43 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 //HOME SCREEN
 export default function HomeScreen({navigation, user}) {
   const [chats, setChats] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+
   const getChats = () => {
     setLoading(true);
     setChats(ChatListData);
     setLoading(false);
   };
 
-  navigation.setOptions({
-    headerRight: () => (
-      <View style={styles.headerRight}>
-        <SearchBar />
-        <Icon
-          name="account-circle"
-          size={34}
-          style={{paddingRight: 0}}
-          onPress={() => navigation.navigate('Profile Screen')}
-          color={Colors.secondaryColor}
-        />
-      </View>
-    ),
-  });
-
   useEffect(() => {
     getChats();
+    navigation.setOptions({
+      headerRight: () => (
+        <View style={styles.headerRight}>
+          <SearchBar setChats={setChats} />
+          <Icon
+            name="account-circle"
+            size={34}
+            style={{paddingRight: 0}}
+            onPress={() => navigation.navigate('Profile Screen')}
+            color={Colors.secondaryColor}
+          />
+        </View>
+      ),
+    });
   }, []);
 
   if (loading)
     return (
-      <ActivityIndicator
-        size={38}
-        style={{flex: 1, backgroundColor: Colors.background}}
-      />
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: Colors.background,
+        }}>
+        <ActivityIndicator size={'large'} />
+      </View>
     );
 
   return (

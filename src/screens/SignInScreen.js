@@ -1,9 +1,11 @@
 import {
   Image,
+  Keyboard,
   KeyboardAvoidingView,
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import React, {useState} from 'react';
@@ -19,80 +21,88 @@ export default function SignInScreen({setUser}) {
   const [login, setLogin] = useState(false);
 
   return (
-    <KeyboardAvoidingView style={styles.wrapper}>
-      <TouchableOpacity
-        onPress={() => setLogin(false)}
-        style={{
-          position: 'absolute',
-          top: 20,
-          right: 20,
-        }}>
-        {login && <Icon name="back" color={Colors.black} size={38} />}
-      </TouchableOpacity>
-      <View>
-        <Text style={styles.text}>Welcome To </Text>
-        <Text style={styles.text}>MBM Communication</Text>
-        <Image style={styles.logo} source={require('../assets/MBM_Logo.png')} />
-      </View>
-      {!login ? (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <KeyboardAvoidingView style={styles.wrapper}>
+        <TouchableOpacity
+          onPress={() => setLogin(false)}
+          style={{
+            position: 'absolute',
+            top: 20,
+            right: 20,
+          }}>
+          {login && <Icon name="back" color={Colors.black} size={38} />}
+        </TouchableOpacity>
         <View>
-          <TextInput
-            value={mobileNumber}
-            placeholder="123456789"
-            keyboardType="numeric"
-            label="Mobile No."
-            onChangeText={text => setMobileNumber(text)}
-            mode="outlined"
-            style={styles.inputBG}
-          />
-          <TextInput
-            mode="outlined"
-            value={password}
-            placeholder="***"
-            label="Password"
-            onChangeText={text => setPassword(text)}
-            style={styles.inputBG}
-            secureTextEntry
+          <Text style={styles.text}>Welcome To </Text>
+          <Text style={styles.text}>MBM Communication</Text>
+          <Image
+            style={styles.logo}
+            source={require('../assets/MBM_Logo.png')}
           />
         </View>
-      ) : (
-        <View>
-          <Text
-            style={[
-              {color: Colors.primaryColor},
-              {fontSize: 20},
-              {textAlign: 'left'},
-              {marginBottom: 5},
-              {paddingLeft: 3},
-            ]}>
-            Set Profile Name
-          </Text>
-          <TextInput
-            value={profileName}
-            placeholder="Profile Name"
-            onChangeText={text => setProfileName(text)}
-            style={[styles.inputBG, {height: 40}]}
-          />
-        </View>
-      )}
-      {!login ? (
-        <Button
-          disabled={!mobileNumber || !password}
-          style={styles.loginBtn}
-          mode="contained"
-          onPress={() => setLogin(true)}>
-          Next
-        </Button>
-      ) : (
-        <Button
-          disabled={!profileName}
-          style={styles.loginBtn}
-          mode="contained"
-          onPress={() => setUser(profileName)}>
-          login
-        </Button>
-      )}
-    </KeyboardAvoidingView>
+        {!login ? (
+          <View>
+            <TextInput
+              value={mobileNumber}
+              placeholder="123456789"
+              keyboardType="numeric"
+              label="Mobile No."
+              onChangeText={text => setMobileNumber(text)}
+              mode="outlined"
+              style={styles.inputBG}
+            />
+            <TextInput
+              mode="outlined"
+              value={password}
+              placeholder="***"
+              label="Password"
+              onChangeText={text => setPassword(text)}
+              style={styles.inputBG}
+              secureTextEntry
+            />
+          </View>
+        ) : (
+          <View>
+            <Text
+              style={[
+                {color: Colors.primaryColor},
+                {fontSize: 20},
+                {textAlign: 'left'},
+                {marginBottom: 5},
+                {paddingLeft: 3},
+              ]}>
+              Set Profile Name
+            </Text>
+            <TextInput
+              value={profileName}
+              placeholder="Profile Name"
+              onChangeText={text => setProfileName(text)}
+              style={[styles.inputBG, {height: 40}]}
+            />
+          </View>
+        )}
+        {!login ? (
+          <Button
+            disabled={!mobileNumber || !password}
+            style={styles.loginBtn}
+            mode="contained"
+            onPress={() => setLogin(true)}>
+            Next
+          </Button>
+        ) : (
+          <Button
+            disabled={!profileName}
+            style={styles.loginBtn}
+            mode="contained"
+            onPress={() => {
+              Keyboard.dismiss();
+              setTimeout(() => setUser(profileName), 500);
+            }}>
+            login
+          </Button>
+        )}
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }
 

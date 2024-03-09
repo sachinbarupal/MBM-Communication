@@ -5,6 +5,7 @@ import {Colors} from '../theme/colors';
 export default function ChatCard({chat, navigation}) {
   return (
     <TouchableOpacity
+      activeOpacity={0.8}
       onPress={() => navigation.navigate('InsideChat', {chat})}
       style={styles.card}>
       <View>

@@ -22,7 +22,7 @@ export const ChatListData = [
     name: 'MBM',
     profile: MBM,
     time: '9:43 AM',
-    message: 'Shi hai Shi hai',
+    message: 'Hello Students',
     mute: true,
     tags: ['mbm', 'news', 'official'],
   },

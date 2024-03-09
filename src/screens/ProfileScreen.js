@@ -3,13 +3,14 @@ import React from 'react';
 import {Colors} from '../theme/colors';
 
 export default function ProfileScreen({user, setUser}) {
+  console.log(user);
   return (
     <View
       style={{
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: Colors.primaryColor,
+        backgroundColor: 'lightgrey',
       }}>
       <View
         style={{
@@ -19,6 +20,7 @@ export default function ProfileScreen({user, setUser}) {
           borderRadius: 12,
           alignItems: 'center',
           position: 'relative',
+          elevation: 10,
         }}>
         <Image
           source={{

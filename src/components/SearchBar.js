@@ -3,10 +3,20 @@ import {StyleSheet, TextInput, View, Keyboard} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {Colors} from '../theme/colors';
+import {ChatListData as allChats} from '../data/ChatsData';
 
-const SearchBar = () => {
+const SearchBar = ({setChats}) => {
   const [clicked, setClicked] = useState(false);
   const [searchInput, setSearchInput] = useState('');
+
+  function handleSearch(query) {
+    setSearchInput(query);
+
+    const filtered = allChats.filter(chat =>
+      chat.name.toLowerCase().includes(query.toLowerCase()),
+    );
+    setChats(filtered);
+  }
   return (
     <View style={styles.container}>
       <View
@@ -15,9 +25,9 @@ const SearchBar = () => {
         }>
         <Icon
           name="search"
-          size={clicked ? 30 : 34}
+          size={clicked ? 24 : 34}
           color={Colors.primaryColor}
-          marginLeft={10}
+          marginLeft={6}
           onPress={() => setClicked(true)}
         />
         {clicked && (
@@ -25,10 +35,8 @@ const SearchBar = () => {
             style={[styles.input, {borderRadius: 15}]}
             placeholder="Search"
             placeholderTextColor={Colors.primaryColor}
-            autoFocus
             value={searchInput}
-            onChangeText={setSearchInput}
-            onFocus={() => setClicked(true)}
+            onChangeText={text => handleSearch(text)}
           />
         )}
       </View>
@@ -40,6 +48,8 @@ const SearchBar = () => {
           style={{marginLeft: 5, marginRight: 4}}
           onPress={() => {
             Keyboard.dismiss();
+            // setSearchInput('');
+            handleSearch('');
             setClicked(false);
           }}
         />
@@ -53,7 +63,7 @@ export default SearchBar;
 const styles = StyleSheet.create({
   container: {
     padding: 0,
-    marginVertical: 10,
+    // marginVertical: 10,
     gap: 0,
     alignItems: 'center',
     flexDirection: 'row',
@@ -71,8 +81,9 @@ const styles = StyleSheet.create({
     width: 200,
   },
   input: {
-    fontSize: 20,
+    fontSize: 16,
     width: 150,
     color: Colors.black,
+    height: 40,
   },
 });
