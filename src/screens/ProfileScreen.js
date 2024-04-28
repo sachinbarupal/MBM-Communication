@@ -10,7 +10,7 @@ export default function ProfileScreen({user, setUser}) {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'lightgrey',
+        backgroundColor: Colors.background,
       }}>
       <View
         style={{
@@ -41,10 +41,11 @@ export default function ProfileScreen({user, setUser}) {
             gap: 25,
             flexDirection: 'column',
             alignItems: 'center',
-            borderWidth: 1,
+            // borderWidth: 1,
             width: '85%',
+            backgroundColor: 'lightgrey',
             paddingTop: 8,
-            paddingBottom: 20,
+            // paddingBottom: 20,
             borderRadius: 10,
           }}>
           <View style={styles.detailBox}>
@@ -59,9 +60,17 @@ export default function ProfileScreen({user, setUser}) {
             <Text style={styles.detailTag}>Branch</Text>
             <Text style={styles.detail}>CSE</Text>
           </View>
-          <View style={styles.detailBox}>
+          <View style={[styles.detailBox, {borderBottomWidth: 0}]}>
             <Text style={styles.detailTag}>Date of Birth</Text>
-            <Text style={styles.detail}>24/s12/12</Text>
+            {user.name ? (
+              <Text style={styles.detail}>{user.name}</Text>
+            ) : (
+              <TouchableOpacity>
+                <Text style={[styles.detail, {color: 'red'}]}>
+                  {'<Enter DoB>'}
+                </Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
 

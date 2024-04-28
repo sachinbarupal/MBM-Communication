@@ -11,10 +11,20 @@ const SearchBar = ({setChats}) => {
 
   function handleSearch(query) {
     setSearchInput(query);
+    const hashtags = query.match(/#[a-z]+/gi)?.map(tag => tag.slice(1));
 
-    const filtered = allChats.filter(chat =>
-      chat.name.toLowerCase().includes(query.toLowerCase()),
-    );
+    let filtered = [];
+    if (hashtags)
+      filtered = allChats.filter(chat => {
+        for (let i = 0; i < hashtags.length; ++i) {
+          if (!chat.tags || !chat.tags.includes(hashtags[i])) return false;
+        }
+        return true;
+      });
+    else
+      filtered = allChats.filter(chat =>
+        chat.name.toLowerCase().includes(query.toLowerCase()),
+      );
     setChats(filtered);
   }
   return (

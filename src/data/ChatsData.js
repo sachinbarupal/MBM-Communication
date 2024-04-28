@@ -24,7 +24,7 @@ export const ChatListData = [
     time: '9:43 AM',
     message: 'Hello Students',
     mute: true,
-    tags: ['mbm', 'news', 'official'],
+    tags: ['mbm', 'news', 'official', 'mbm', 'news', 'official'],
   },
   {
     id: 2,

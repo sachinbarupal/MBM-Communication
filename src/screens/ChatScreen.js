@@ -11,7 +11,9 @@ import {
 import Tags from '../components/MessageTags';
 import {Colors} from '../theme/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
-export default function ChatScreen({route}) {
+import AddTag from '../components/AddTag';
+import RemoveTags from '../components/RemoveTags';
+export default function ChatScreen({route, navigation}) {
   const chat = route.params.chat;
   const [img, setImg] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -20,6 +22,11 @@ export default function ChatScreen({route}) {
       ? `#${chat.tags?.join().replaceAll(',', ' #')}`
       : '',
   );
+  const [currentTags, setCurrentTags] = useState([]);
+  // console.log(chat.tags);
+  const [showTag, setShowTag] = useState(false);
+  const [addTag, setAddTag] = useState(false);
+  const [removeTag, setRemoveTag] = useState(false);
   useEffect(() => {
     setMessages([
       {
@@ -33,8 +40,9 @@ export default function ChatScreen({route}) {
         },
       },
     ]);
+    setCurrentTags([...chat.tags]);
   }, []);
-
+  console.log('cc', currentTags);
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages =>
       GiftedChat.append(previousMessages, messages),
@@ -61,8 +69,28 @@ export default function ChatScreen({route}) {
 
   return (
     <View style={{flex: 1, backgroundColor: Colors.white}}>
+      {addTag && (
+        <AddTag
+          setCurrentTags={setCurrentTags}
+          currentTags={currentTags}
+          setTags={setTags}
+          setAddTag={setAddTag}
+        />
+      )}
+
+      {removeTag && (
+        <RemoveTags
+          navigation={navigation}
+          setRemoveTag={setRemoveTag}
+          setTags={setTags}
+          setCurrentTags={setCurrentTags}
+          currentTags={currentTags}
+        />
+      )}
+
       <GiftedChat
         messages={messages}
+        // ON SEND
         onSend={messages => {
           messages[0].tags = tags.match(/#[a-z]+/gi)?.map(tag => tag.slice(1));
           messages[0].image = img ? img : '';
@@ -74,13 +102,20 @@ export default function ChatScreen({route}) {
         }}
         // showUserAvatar
         isKeyboardInternallyHandled={false}
+        // INPUT TOOLBAR
         renderInputToolbar={props => (
           <InputToolbar
             {...props}
+            accessoryStyle={{
+              height: showTag ? 'auto' : 0,
+              // display: showTag ? 'none' : 'flex',
+            }}
             containerStyle={{position: 'relative'}}
-            accessoryStyle={{height: 'auto'}}
+            // accessoryStyle={{height: 'auto'}}
+            // renderAccessory={}
           />
         )}
+        // LONG PRESS
         onLongPress={(context, message) => {
           Keyboard.dismiss();
           let options = [];
@@ -108,7 +143,9 @@ export default function ChatScreen({route}) {
             },
           );
         }}
+        // BUBBLE
         renderBubble={props => <Bubble {...props} />}
+        // SEND
         renderSend={props => {
           return (
             <View
@@ -135,6 +172,17 @@ export default function ChatScreen({route}) {
                   }}
                 />
               </TouchableOpacity>
+              <TouchableOpacity onPress={() => setShowTag(!showTag)}>
+                <Image
+                  source={require('../assets/hashtag.png')}
+                  style={{
+                    width: 28,
+                    height: 28,
+                    // marginLeft: 8,
+                    marginRight: 10,
+                  }}
+                />
+              </TouchableOpacity>
               <Send {...props} containerStyle={{justifyContent: 'center'}}>
                 <Icon
                   name="send"
@@ -154,7 +202,16 @@ export default function ChatScreen({route}) {
             textInputStyle={{color: 'black', lineHeight: 20}}
           />
         )}
-        renderAccessory={() => <Tags tags={tags} setTags={setTags} />}
+        // ACCESSORY
+        renderAccessory={() => (
+          <Tags
+            showTag={showTag}
+            setAddTag={setAddTag}
+            tags={tags}
+            setTags={setTags}
+            setRemoveTag={setRemoveTag}
+          />
+        )}
       />
     </View>
   );

@@ -21,7 +21,7 @@ const theme = {
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState('Sachin');
 
   return (
     <NavigationContainer>
