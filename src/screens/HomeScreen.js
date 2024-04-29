@@ -29,7 +29,7 @@ export default function HomeScreen({navigation, user}) {
             size={34}
             style={{paddingRight: 0}}
             onPress={() => navigation.navigate('Profile Screen')}
-            color={Colors.secondaryColor}
+            color={Colors.white}
           />
         </View>
       ),
@@ -43,7 +43,8 @@ export default function HomeScreen({navigation, user}) {
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: Colors.background,
+          // backgroundColor: 'red',
+          // zIndex: 10000,
         }}>
         <ActivityIndicator size={'large'} />
       </View>
@@ -71,7 +72,7 @@ export default function HomeScreen({navigation, user}) {
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.white,
     flex: 1,
     paddingVertical: 3,
   },

@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {Colors} from '../theme/colors';
 import {ChatListData as allChats} from '../data/ChatsData';
+import OutsidePressHandler from 'react-native-outside-press';
 
 const SearchBar = ({setChats}) => {
   const [clicked, setClicked] = useState(false);
@@ -28,43 +29,49 @@ const SearchBar = ({setChats}) => {
     setChats(filtered);
   }
   return (
-    <View style={styles.container}>
-      <View
-        style={
-          clicked ? styles.searchBar__clicked : styles.searchBar__unclicked
-        }>
-        <Icon
-          name="search"
-          size={clicked ? 24 : 34}
-          color={Colors.primaryColor}
-          marginLeft={6}
-          onPress={() => setClicked(true)}
-        />
+    <OutsidePressHandler
+      onOutsidePress={() => {
+        if (searchInput.length != 0) return;
+        setClicked(false);
+      }}>
+      <View style={styles.container}>
+        <View
+          style={
+            clicked ? styles.searchBar__clicked : styles.searchBar__unclicked
+          }>
+          <Icon
+            name="search"
+            size={clicked ? 24 : 34}
+            color={clicked ? Colors.black : Colors.white}
+            marginLeft={6}
+            onPress={() => setClicked(true)}
+          />
+          {clicked && (
+            <TextInput
+              style={[styles.input, {borderRadius: 15}]}
+              placeholder="Search"
+              placeholderTextColor={Colors.primaryColor}
+              value={searchInput}
+              onChangeText={text => handleSearch(text)}
+            />
+          )}
+        </View>
         {clicked && (
-          <TextInput
-            style={[styles.input, {borderRadius: 15}]}
-            placeholder="Search"
-            placeholderTextColor={Colors.primaryColor}
-            value={searchInput}
-            onChangeText={text => handleSearch(text)}
+          <Entypo
+            name="cross"
+            size={34}
+            color={Colors.white}
+            style={{marginLeft: 5, marginRight: 4}}
+            onPress={() => {
+              Keyboard.dismiss();
+              // setSearchInput('');
+              handleSearch('');
+              setClicked(false);
+            }}
           />
         )}
       </View>
-      {clicked && (
-        <Entypo
-          name="cross"
-          size={34}
-          color="black"
-          style={{marginLeft: 5, marginRight: 4}}
-          onPress={() => {
-            Keyboard.dismiss();
-            // setSearchInput('');
-            handleSearch('');
-            setClicked(false);
-          }}
-        />
-      )}
-    </View>
+    </OutsidePressHandler>
   );
 };
 export default SearchBar;
@@ -87,6 +94,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     flexDirection: 'row',
     backgroundColor: '#d9dbda',
+    // marginRight: 10,
     alignItems: 'center',
     width: 200,
   },

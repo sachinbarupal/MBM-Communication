@@ -23,7 +23,7 @@ export default function ProfileScreen({user, setUser}) {
         }}>
         <Image
           source={{
-            uri: `https://ui-avatars.com/api/?name=${user}`,
+            uri: `https://ui-avatars.com/api/?name=sac`,
           }}
           style={{
             width: 100,

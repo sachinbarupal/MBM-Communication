@@ -34,7 +34,13 @@ export default function SignInScreen({setUser}) {
         </TouchableOpacity>
         <View>
           <Text style={styles.text}>Welcome To </Text>
-          <Text style={styles.text}>MBM Communication</Text>
+          <Text
+            style={[
+              styles.text,
+              {color: 'orange', fontSize: 36, fontWeight: 500},
+            ]}>
+            MBM Communication
+          </Text>
           <Image
             style={styles.logo}
             source={require('../assets/MBM_Logo.png')}
@@ -44,18 +50,18 @@ export default function SignInScreen({setUser}) {
           <View>
             <TextInput
               value={mobileNumber}
-              placeholder="123456789"
-              keyboardType="numeric"
-              label="Mobile No."
+              placeholder="Enter Mobile No."
+              // keyboardType="numeric"
+              // label="Mobile No."
               onChangeText={text => setMobileNumber(text)}
               mode="outlined"
-              style={styles.inputBG}
+              style={[styles.inputBG, {marginBottom: 20}]}
             />
             <TextInput
               mode="outlined"
               value={password}
-              placeholder="***"
-              label="Password"
+              placeholder="Enter Password"
+              // label="Password"
               onChangeText={text => setPassword(text)}
               style={styles.inputBG}
               secureTextEntry
@@ -83,11 +89,16 @@ export default function SignInScreen({setUser}) {
         )}
         {!login ? (
           <Button
+            labelStyle={{color: 'black', fontSize: 14}}
             disabled={!mobileNumber || !password}
             style={styles.loginBtn}
             mode="contained"
-            onPress={() => setLogin(true)}>
-            Next
+            // onPress={() => setLogin(true)}>
+            onPress={() => {
+              Keyboard.dismiss();
+              setTimeout(() => setUser('Sachin'), 1000);
+            }}>
+            Login
           </Button>
         ) : (
           <Button
@@ -98,7 +109,7 @@ export default function SignInScreen({setUser}) {
               Keyboard.dismiss();
               setTimeout(() => setUser(profileName), 500);
             }}>
-            login
+            Login
           </Button>
         )}
       </KeyboardAvoidingView>
@@ -108,7 +119,7 @@ export default function SignInScreen({setUser}) {
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: Colors.foreground,
+    backgroundColor: Colors.status,
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 20,
@@ -123,13 +134,15 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     fontSize: 32,
-    color: Colors.primaryColor,
+    color: Colors.white,
   },
   inputBG: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.white,
   },
   loginBtn: {
-    marginTop: 20,
+    marginTop: 50,
     marginHorizontal: 50,
+    backgroundColor: Colors.foreground,
+    // color: 'black',
   },
 });

@@ -8,4 +8,5 @@ export const Colors = {
   background: '#ADD9D8',
   white: '#FFFFFF',
   black: '#000000',
+  status: '#1c2e50',
 };
