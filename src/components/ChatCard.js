@@ -8,22 +8,23 @@ export default function ChatCard({chat, navigation}) {
       activeOpacity={0.8}
       onPress={() => navigation.navigate('InsideChat', {chat})}
       style={styles.card}>
+      {/* USER IMAGE */}
       <View>
         <Image source={chat.profile} style={styles.chatImg} />
       </View>
+
+      {/* NAME AND LAST MASG */}
       <View style={{flex: 1, justifyContent: 'space-around'}}>
         <Text style={styles.chatName}>{chat.name}</Text>
         <Text style={styles.chatMsg}>{chat.message}</Text>
       </View>
+
+      {/* CHAT TAGS */}
       <View style={styles.chatTags}>
         {chat.tags?.map((tag, index) => (
           <TouchableOpacity
             key={index}
-            onPress={() =>
-              navigation.navigate('Tag Screen', {
-                tag,
-              })
-            }>
+            onPress={() => navigation.navigate('Tag Screen', {tag})}>
             <Text style={styles.chatTag}>#{tag} </Text>
           </TouchableOpacity>
         ))}

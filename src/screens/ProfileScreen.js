@@ -3,7 +3,6 @@ import React from 'react';
 import {Colors} from '../theme/colors';
 
 export default function ProfileScreen({user, setUser}) {
-  console.log(user);
   return (
     <View
       style={{

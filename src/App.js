@@ -9,6 +9,8 @@ import HomeScreen from './screens/HomeScreen';
 import TagScreen from './screens/TagScreen';
 import ChatScreen from './screens/ChatScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import Toast from 'react-native-toast-message';
+import {EventProvider} from 'react-native-outside-press';
 const theme = {
   ...DefaultTheme,
   colors: {
@@ -71,11 +73,14 @@ const Navigation = () => {
 export default function App() {
   return (
     <PaperProvider theme={theme}>
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor={Colors.primaryColor}
-      />
-      <Navigation />
+      <EventProvider>
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor={Colors.primaryColor}
+        />
+        <Navigation />
+        <Toast />
+      </EventProvider>
     </PaperProvider>
   );
 }

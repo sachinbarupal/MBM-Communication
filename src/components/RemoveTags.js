@@ -1,25 +1,40 @@
 import {
   FlatList,
   Image,
-  ScrollView,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
-import {TextInput} from 'react-native-paper';
+import React from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {allTags} from '../data/AllTags';
+import Toast from 'react-native-toast-message';
 
-export function Card({tag, navigation, currentTags, setCurrentTags, setTags}) {
+export function Card({
+  tag,
+  navigation,
+  currentTags,
+  setCurrentTags,
+  setRemoveTag,
+  setTags,
+}) {
+  //  REMOVE TAG
   function removeTag(tag) {
+    // REMOVE FROM CurrentTags Array
     const afterRemove = currentTags.filter(thisTag => thisTag !== tag);
+
+    //Update Current Tags Array
     setCurrentTags([...afterRemove]);
+
+    //Update Tags String
     setTags(
       afterRemove && afterRemove.length > 0
         ? `#${afterRemove?.join().replaceAll(',', ' #')}`
         : '',
     );
+
+    // If No more Tags to be removed Close remove Tag Window
+    if (afterRemove.length == 0) setRemoveTag(false);
   }
 
   return (
@@ -32,13 +47,9 @@ export function Card({tag, navigation, currentTags, setCurrentTags, setTags}) {
         borderBottomWidth: 1,
         paddingVertical: 2,
       }}>
+      {/* Navigate to Tag Screen */}
       <TouchableOpacity
-        //   key={index}
-        onPress={() =>
-          navigation.navigate('Tag Screen', {
-            tag,
-          })
-        }>
+        onPress={() => navigation.navigate('Tag Screen', {tag})}>
         <Text
           style={{
             flex: 1,
@@ -56,10 +67,22 @@ export function Card({tag, navigation, currentTags, setCurrentTags, setTags}) {
           {tag}
         </Text>
       </TouchableOpacity>
+
+      {/* Remove Tag Icon */}
       <TouchableOpacity
         activeOpacity={1}
         onPress={() => {
+          // Remove Tag
           removeTag(tag);
+
+          // Show Success Toast
+          Toast.show({
+            text1: 'Tag Removed Successfully',
+            visibilityTime: 700,
+            onPress: () => {
+              Toast.hide();
+            },
+          });
         }}>
         <Image
           source={require('../assets/dustbin.png')}
@@ -77,116 +100,69 @@ export default function RemoveTags({
   setCurrentTags,
   currentTags,
 }) {
-  //   const [searchTag, setSearchTag] = useState('#');
-  //   const [suggestion, setSuggestion] = useState([]);
-
-  //   // console.log('cc', currentTags);
-  //   function searchSuggestion(text) {
-  //     if (text.length == 1) {
-  //       setSuggestion([]);
-  //       return;
-  //     }
-  //     // console.log('here ', currentTags);
-  //     filtered = allTags.filter(item => {
-  //       // console.log('item');
-  //       return (
-  //         item.name.toLowerCase().startsWith(text.substring(1).toLowerCase()) &&
-  //         !currentTags.includes(item.name)
-  //       );
-  //     });
-  //     setSuggestion(filtered);
-  //     // console.log('filt', filtered);
-  //   }
-
   return (
-    <View
-      style={{
-        height: '100%',
-        width: '100%',
-        zIndex: 100,
-        backgroundColor: 'white',
-        // backfaceVisibility: 'hidden',
-        // backgroundColor: 'rgba(0,0,0,0.1)',
-        // filter: 'blur(10)',
-        display: 'flex',
-        justifyContent: 'flex-end',
-        // alignItems: 'center',
-      }}>
-      <Entypo
-        name="cross"
-        size={40}
-        color="black"
-        onPress={() => setRemoveTag(false)}
-        style={{alignSelf: 'flex-end'}}
-      />
-
-      <View>
-        {currentTags.length == 0 && (
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              backgroundColor: 'lightgrey',
-              borderBottomWidth: 1,
-              paddingVertical: 2,
-            }}>
-            <Text
-              style={{
-                flex: 1,
-                color: 'black',
-                textAlign: 'center',
-                // fontSize: 20,
-                fontWeight: '700',
-                paddingLeft: 20,
-                paddingVertical: 10,
-                backgroundColor: 'lightgrey',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                width: '100%',
-                // borderRadius: 5,
-              }}>
-              No Tags Applied
-            </Text>
-          </View>
-        )}
-        <FlatList
-          scrollEnabled
-          keyboardShouldPersistTaps="always" //open keyboard
-          keyboardDismisssMode="on-drag"
-          persistentScrollbar
-          //   style={{maxHeight: 125}}/
-          data={currentTags}
-          extraData={currentTags}
-          renderItem={(tag, index) => {
-            return (
-              <Card
-                key={index}
-                setCurrentTags={setCurrentTags}
-                currentTags={currentTags}
-                navigation={navigation}
-                setTags={setTags}
-                tag={tag.item}
-              />
-            );
-          }}
-        />
-        {/* <TextInput
-          value={searchTag}
-          autoFocus
-          onChangeText={text => {
-            if (text.length == 0) return;
-            setSearchTag(text);
-            searchSuggestion(text);
-          }}
+    <TouchableWithoutFeedback onPress={() => setRemoveTag(false)}>
+      <View
+        style={{
+          height: '100%',
+          // marginTop: '100%',
+          // minHeight: 100,
+          position: 'absolute',
+          width: '100%',
+          zIndex: 100,
+          backgroundColor: 'rgba(0,0,0,0.1)',
+          filter: 'blur(10)',
+          // backgroundColor: 'white',
+          // backfaceVisibility: 'hidden',
+          // backgroundColor: 'rgba(0,0,0,0.1)',
+          // filter: 'blur(10)',
+          display: 'flex',
+          justifyContent: 'flex-end',
+          // alignItems: 'center',
+        }}>
+        {/* CROSS BTN */}
+        {/* <View
           style={{
-            zIndex: 200,
-            width: '100%',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-          }}
-        /> */}
+            // backgroundColor: 'white',
+            // backgroundColor: 'rgba(0,0,0,0.1)',
+            // filter: 'blur(10)',
+            paddingTop: 50,
+            alignItems: 'center',
+          }}>
+          <Entypo
+            name="cross"
+            size={40}
+            color="black"
+            onPress={() => setRemoveTag(false)}
+            style={{alignSelf: 'flex-end'}}
+          />
+        </View> */}
+
+        <View>
+          {/* FLAT LIST TO SHOW ALL CURRENT TAGS */}
+          <FlatList
+            scrollEnabled
+            keyboardShouldPersistTaps="always"
+            keyboardDismisssMode="on-drag"
+            persistentScrollbar
+            data={currentTags}
+            extraData={currentTags}
+            renderItem={(tag, index) => {
+              return (
+                <Card
+                  key={index}
+                  setCurrentTags={setCurrentTags}
+                  currentTags={currentTags}
+                  navigation={navigation}
+                  setRemoveTag={setRemoveTag}
+                  setTags={setTags}
+                  tag={tag.item}
+                />
+              );
+            }}
+          />
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }

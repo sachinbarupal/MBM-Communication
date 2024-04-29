@@ -13,20 +13,20 @@ import {Colors} from '../theme/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AddTag from '../components/AddTag';
 import RemoveTags from '../components/RemoveTags';
+import Toast from 'react-native-toast-message';
+import OutsidePressHandler from 'react-native-outside-press';
 export default function ChatScreen({route, navigation}) {
   const chat = route.params.chat;
   const [img, setImg] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [tags, setTags] = useState(
-    chat.tags && chat.tags.length > 0
-      ? `#${chat.tags?.join().replaceAll(',', ' #')}`
-      : '',
-  );
+  const [tags, setTags] = useState('');
   const [currentTags, setCurrentTags] = useState([]);
-  // console.log(chat.tags);
   const [showTag, setShowTag] = useState(false);
   const [addTag, setAddTag] = useState(false);
   const [removeTag, setRemoveTag] = useState(false);
+  const [toggleSendOptions, setToggleSendOptions] = useState(false);
+
+  // USE EFFECT
   useEffect(() => {
     setMessages([
       {
@@ -40,9 +40,16 @@ export default function ChatScreen({route, navigation}) {
         },
       },
     ]);
+    if (!chat.tags) chat.tags = [];
     setCurrentTags([...chat.tags]);
+    setTags(
+      chat.tags && chat.tags.length > 0
+        ? `#${chat.tags?.join().replaceAll(',', ' #')}`
+        : '',
+    );
   }, []);
-  console.log('cc', currentTags);
+
+  // ON SEND MSG
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages =>
       GiftedChat.append(previousMessages, messages),
@@ -50,25 +57,62 @@ export default function ChatScreen({route, navigation}) {
     setImg(null);
   }, []);
 
+  // DELETE MSG
   function onDelete(messageIdToDeleteID) {
     setMessages(previousMessages => {
       return previousMessages.filter(msg => msg._id !== messageIdToDeleteID);
     });
   }
 
+  // OPEN CAMERA
   async function openCamera() {
     const result = await launchCamera();
 
-    if (result.assets) setImg(result.assets[0].uri);
+    if (result.assets) {
+      setImg(result.assets[0].uri);
+      Toast.show({text1: 'Image Selected Successfully'});
+    }
   }
 
+  // OPEN GALLERY
   async function openGallery() {
     const result = await launchImageLibrary();
-    if (result.assets) setImg(result.assets[0].uri);
+    if (result.assets) {
+      setImg(result.assets[0].uri);
+      Toast.show({text1: 'Image Selected Successfully'});
+    }
+  }
+
+  // HANDLE LONG PRESS
+  function handleLongPress(context, message) {
+    Keyboard.dismiss();
+    let options = [];
+    if (message.tags?.length > 0) {
+      const tagString = `Tags : #${message.tags.join().replaceAll(',', ' #')}`;
+      options.push(tagString);
+    }
+    options.push('Delete Message');
+    options.push('Cancel');
+    const cancelButtonIndex = options.length - 1;
+
+    context.actionSheet().showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+      },
+      buttonIndex => {
+        switch (buttonIndex) {
+          case options.length === 3 ? 1 : 0:
+            onDelete(message._id);
+            break;
+        }
+      },
+    );
   }
 
   return (
     <View style={{flex: 1, backgroundColor: Colors.white}}>
+      {/* ADD TAG WINDOW */}
       {addTag && (
         <AddTag
           setCurrentTags={setCurrentTags}
@@ -78,6 +122,7 @@ export default function ChatScreen({route, navigation}) {
         />
       )}
 
+      {/* REMOVE TAG WINDOW */}
       {removeTag && (
         <RemoveTags
           navigation={navigation}
@@ -92,57 +137,33 @@ export default function ChatScreen({route, navigation}) {
         messages={messages}
         // ON SEND
         onSend={messages => {
-          messages[0].tags = tags.match(/#[a-z]+/gi)?.map(tag => tag.slice(1));
+          if (currentTags.length == 0) {
+            Toast.show({
+              type: 'error',
+              text1: 'Add Atleast one Tag with the Message..',
+            });
+            return;
+          }
+          messages[0].tags = currentTags;
           messages[0].image = img ? img : '';
           onSend(messages);
         }}
+        // USER
         user={{
           _id: 1,
           avatar: chat.profile,
         }}
-        // showUserAvatar
         isKeyboardInternallyHandled={false}
         // INPUT TOOLBAR
         renderInputToolbar={props => (
           <InputToolbar
             {...props}
-            accessoryStyle={{
-              height: showTag ? 'auto' : 0,
-              // display: showTag ? 'none' : 'flex',
-            }}
+            accessoryStyle={{height: showTag ? 'auto' : 0}}
             containerStyle={{position: 'relative'}}
-            // accessoryStyle={{height: 'auto'}}
-            // renderAccessory={}
           />
         )}
         // LONG PRESS
-        onLongPress={(context, message) => {
-          Keyboard.dismiss();
-          let options = [];
-          if (message.tags?.length > 0) {
-            const tagString = `Tags : #${message.tags
-              .join()
-              .replaceAll(',', ' #')}`;
-            options.push(tagString);
-          }
-          options.push('Delete Message');
-          options.push('Cancel');
-          const cancelButtonIndex = options.length - 1;
-
-          context.actionSheet().showActionSheetWithOptions(
-            {
-              options,
-              cancelButtonIndex,
-            },
-            buttonIndex => {
-              switch (buttonIndex) {
-                case options.length === 3 ? 1 : 0:
-                  onDelete(message._id);
-                  break;
-              }
-            },
-          );
-        }}
+        onLongPress={(context, message) => handleLongPress(context, message)}
         // BUBBLE
         renderBubble={props => <Bubble {...props} />}
         // SEND
@@ -155,15 +176,82 @@ export default function ChatScreen({route, navigation}) {
                 rowGap: 24,
                 alignItems: 'center',
               }}>
-              <TouchableOpacity onPress={() => openCamera()}>
+              {toggleSendOptions ? (
+                <OutsidePressHandler
+                  onOutsidePress={() => setToggleSendOptions(false)}>
+                  <View
+                    style={{
+                      zIndex: 1000,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      // padding: 20,
+                      height: 120,
+                      // paddingBottom: 10,
+
+                      marginBottom: 85,
+                      // marginRight: 5,
+                      // backgroundColor: ',
+                      marginRight: 0,
+                      paddingHorizontal: 5,
+                      backgroundColor: 'rgba(0,0,0,0.1)',
+                      filter: 'blur(10)',
+                      borderRadius: 10,
+                      gap: 5,
+                    }}>
+                    {/* OPEN CAMERA ICON */}
+                    <TouchableOpacity onPress={openCamera}>
+                      <Image
+                        source={require('../assets/camera.png')}
+                        style={{width: 32, height: 32}}
+                      />
+                    </TouchableOpacity>
+
+                    {/* OPEN GALLEY ICON */}
+                    <TouchableOpacity onPress={openGallery}>
+                      <Image
+                        source={require('../assets/gallery.png')}
+                        style={{
+                          width: 32,
+                          height: 32,
+                          // marginLeft: 8,
+                          // marginRight: 10,
+                        }}
+                      />
+                    </TouchableOpacity>
+
+                    {/* ATTACHMENT  ICON */}
+                    <TouchableOpacity onPress={openGallery}>
+                      <Image
+                        source={require('../assets/document.png')}
+                        style={{
+                          width: 32,
+                          height: 32,
+                          // marginLeft: 8,
+                          // marginRight: 5,
+                        }}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </OutsidePressHandler>
+              ) : (
+                <TouchableOpacity onPress={() => setToggleSendOptions(true)}>
+                  <Image
+                    source={require('../assets/attach.png')}
+                    style={{
+                      width: 32,
+                      height: 32,
+                      marginLeft: 8,
+                      // marginRight: 10,
+                    }}
+                  />
+                </TouchableOpacity>
+              )}
+
+              {/* SHOW - UNSHOW TAG ICON */}
+              <TouchableOpacity onPress={() => setShowTag(!showTag)}>
                 <Image
-                  source={require('../assets/camera.png')}
-                  style={{width: 28, height: 28}}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => openGallery()}>
-                <Image
-                  source={require('../assets/gallery.png')}
+                  source={require('../assets/hashtag.png')}
                   style={{
                     width: 28,
                     height: 28,
@@ -172,17 +260,8 @@ export default function ChatScreen({route, navigation}) {
                   }}
                 />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => setShowTag(!showTag)}>
-                <Image
-                  source={require('../assets/hashtag.png')}
-                  style={{
-                    width: 28,
-                    height: 28,
-                    // marginLeft: 8,
-                    marginRight: 10,
-                  }}
-                />
-              </TouchableOpacity>
+
+              {/* SEND ICON */}
               <Send {...props} containerStyle={{justifyContent: 'center'}}>
                 <Icon
                   name="send"
@@ -194,6 +273,7 @@ export default function ChatScreen({route, navigation}) {
             </View>
           );
         }}
+        // Composer (input field)
         minComposerHeight={44}
         messagesContainerStyle={{flex: 1}}
         renderComposer={props => (
@@ -204,13 +284,7 @@ export default function ChatScreen({route, navigation}) {
         )}
         // ACCESSORY
         renderAccessory={() => (
-          <Tags
-            showTag={showTag}
-            setAddTag={setAddTag}
-            tags={tags}
-            setTags={setTags}
-            setRemoveTag={setRemoveTag}
-          />
+          <Tags setAddTag={setAddTag} setRemoveTag={setRemoveTag} tags={tags} />
         )}
       />
     </View>
