@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Colors} from '../theme/colors';
 import {ChatListData} from '../data/ChatsData';
@@ -49,6 +49,15 @@ export default function HomeScreen({navigation, user}) {
         <ActivityIndicator size={'large'} />
       </View>
     );
+
+  if (chats?.length == 0) {
+    return (
+      <Text
+        style={{color: 'red', flex: 1, textAlign: 'center', marginTop: '100%'}}>
+        Please Subscribe to some Tags
+      </Text>
+    );
+  }
 
   return (
     <View style={styles.wrapper}>

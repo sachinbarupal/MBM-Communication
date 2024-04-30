@@ -14,6 +14,7 @@ import {
   Day,
   GiftedChat,
   InputToolbar,
+  Message,
   Send,
   SystemMessage,
 } from 'react-native-gifted-chat';
@@ -26,6 +27,8 @@ import RemoveTags from '../components/RemoveTags';
 import Toast from 'react-native-toast-message';
 import OutsidePressHandler from 'react-native-outside-press';
 import {Menu, MenuDivider, MenuItem} from 'react-native-material-menu';
+import ReplyBar from '../components/ReplyBar';
+import SwipeMessage from '../components/SwipeMessage';
 
 export const HeaderRight = () => {
   const [visible, setVisible] = useState(false);
@@ -98,6 +101,7 @@ export default function ChatScreen({route, navigation}) {
   const [removeTag, setRemoveTag] = useState(false);
   const [toggleSendOptions, setToggleSendOptions] = useState(false);
   const [currentMsg, setCurrentMsg] = useState('');
+  const [replyMsg, setReplyMsg] = useState(null);
   // USE EFFECT
   useEffect(() => {
     navigation.setOptions({
@@ -263,12 +267,14 @@ export default function ChatScreen({route, navigation}) {
 
   // HANDLE LONG PRESS
   function handleLongPress(context, message) {
+    // console.log(message);
     Keyboard.dismiss();
     let options = [];
     if (message.tags?.length > 0) {
       const tagString = `Tags : #${message.tags.join().replaceAll(',', ' #')}`;
       options.push(tagString);
     }
+    options.push('Reply');
     options.push('Delete Message');
     options.push('Cancel');
     const cancelButtonIndex = options.length - 1;
@@ -280,7 +286,11 @@ export default function ChatScreen({route, navigation}) {
       },
       buttonIndex => {
         switch (buttonIndex) {
-          case options.length === 3 ? 1 : 0:
+          case options.length === 4 ? 1 : 0:
+            setReplyMsg(message);
+            break;
+
+          case options.length === 4 ? 2 : 1:
             onDelete(message._id);
             break;
         }
@@ -306,6 +316,7 @@ export default function ChatScreen({route, navigation}) {
         createdAt: new Date(),
         tags: currentTags,
         user: {_id: 1, avatar: 18},
+        isReply: replyMsg,
       },
     ];
 
@@ -316,9 +327,9 @@ export default function ChatScreen({route, navigation}) {
   }
 
   return (
-    <ImageBackground
-      source={require('../assets/mbmLogoBnWO.png')}
-      resizeMode="contain"
+    <View
+      // source={require('../assets/mbmLogoBnWO.png')}
+      // resizeMode="contain"
       style={{flex: 1}}>
       {/* ADD TAG WINDOW */}
       {addTag && (
@@ -360,7 +371,25 @@ export default function ChatScreen({route, navigation}) {
         )}
         messages={messages}
         // scrollToBottom
-
+        // renderMessage={props => (
+        //   <GestureHandlerRootView>
+        //     <Swipeable
+        //       friction={2}
+        //       rightThreshold={40}
+        //       leftThreshold={40}
+        //       renderRightActions={() => <View style={{width: 40}}></View>}>
+        //       <Message {...props} />
+        //     </Swipeable>
+        //   </GestureHandlerRootView>
+        // )}
+        // renderMessage={props => <SwipeMessage props={props} />}
+        // renderChatFooter={() => {
+        //   return (
+        //     replyMsg && (
+        //       <ReplyBar replyMsg={replyMsg} setReplyMsg={setReplyMsg} />
+        //     )
+        //   );
+        // }}
         alwaysShowSend
         // renderTicks = {}
         text={currentMsg}
@@ -385,24 +414,28 @@ export default function ChatScreen({route, navigation}) {
         // LONG PRESS
         onLongPress={(context, message) => handleLongPress(context, message)}
         // BUBBLE
-        renderBubble={props => (
-          <Bubble
-            {...props}
-            textStyle={{
-              right: {
-                color: 'black',
-              },
-            }}
-            wrapperStyle={{
-              left: {
-                backgroundColor: '#ece5dd',
-              },
-              right: {
-                backgroundColor: '#dcf8c6',
-              },
-            }}
-          />
-        )}
+        renderBubble={props => {
+          // console.log(props);
+          // if()
+          return (
+            <Bubble
+              {...props}
+              textStyle={{
+                right: {
+                  color: 'black',
+                },
+              }}
+              wrapperStyle={{
+                left: {
+                  backgroundColor: '#ece5dd',
+                },
+                right: {
+                  backgroundColor: '#dcf8c6',
+                },
+              }}
+            />
+          );
+        }}
         renderTicks={message => {
           if (message.pending)
             return (
@@ -506,19 +539,19 @@ export default function ChatScreen({route, navigation}) {
               )}
 
               {/* SHOW - UNSHOW TAG ICON */}
-              <OutsidePressHandler onOutsidePress={() => setShowTag(false)}>
-                <TouchableOpacity onPress={() => setShowTag(!showTag)}>
-                  <Image
-                    source={require('../assets/hashtag.png')}
-                    style={{
-                      width: 28,
-                      height: 28,
-                      marginLeft: 8,
-                      marginRight: 8,
-                    }}
-                  />
-                </TouchableOpacity>
-              </OutsidePressHandler>
+              {/* <OutsidePressHandler onOutsidePress={() => setShowTag(false)}> */}
+              <TouchableOpacity onPress={() => setShowTag(!showTag)}>
+                <Image
+                  source={require('../assets/hashtag.png')}
+                  style={{
+                    width: 28,
+                    height: 28,
+                    marginLeft: 8,
+                    marginRight: 8,
+                  }}
+                />
+              </TouchableOpacity>
+              {/* </OutsidePressHandler> */}
 
               {/* SEND ICON */}
               <Send
@@ -549,6 +582,6 @@ export default function ChatScreen({route, navigation}) {
           <Tags setAddTag={setAddTag} setRemoveTag={setRemoveTag} tags={tags} />
         )}
       />
-    </ImageBackground>
+    </View>
   );
 }

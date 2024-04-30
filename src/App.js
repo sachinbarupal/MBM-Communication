@@ -23,7 +23,7 @@ const theme = {
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState('Sachin');
 
   return (
     <NavigationContainer>
@@ -79,6 +79,9 @@ const Navigation = () => {
               options={{
                 statusBarColor: Colors.status,
                 statusBarStyle: 'light-content',
+                headerStyle: {
+                  backgroundColor: Colors.status,
+                },
               }}
               name="Tag Screen"
               component={TagScreen}
@@ -89,6 +92,11 @@ const Navigation = () => {
               options={{
                 statusBarColor: Colors.status,
                 statusBarStyle: 'light-content',
+                headerTintColor: Colors.white,
+                headerStyle: {
+                  backgroundColor: Colors.status,
+                },
+                title: 'User Profile',
               }}
               name="Profile Screen">
               {props => (
