@@ -18,6 +18,7 @@ export default function HomeScreen({navigation, user}) {
     setLoading(false);
   };
 
+  // USE EFFECT
   useEffect(() => {
     getChats();
     navigation.setOptions({
@@ -38,25 +39,13 @@ export default function HomeScreen({navigation, user}) {
 
   if (loading)
     return (
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          // backgroundColor: 'red',
-          // zIndex: 10000,
-        }}>
+      <View style={styles.loadingWrapper}>
         <ActivityIndicator size={'large'} />
       </View>
     );
 
   if (chats?.length == 0) {
-    return (
-      <Text
-        style={{color: 'red', flex: 1, textAlign: 'center', marginTop: '100%'}}>
-        Please Subscribe to some Tags
-      </Text>
-    );
+    return <Text style={styles.emptyChat}>Please Subscribe to some Tags</Text>;
   }
 
   return (
@@ -91,4 +80,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: 'auto',
   },
+  loadingWrapper: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyChat: {color: 'red', flex: 1, textAlign: 'center', marginTop: '100%'},
 });

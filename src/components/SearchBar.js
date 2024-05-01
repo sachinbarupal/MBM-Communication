@@ -10,6 +10,7 @@ const SearchBar = ({setChats}) => {
   const [clicked, setClicked] = useState(false);
   const [searchInput, setSearchInput] = useState('');
 
+  // Handle Search
   function handleSearch(query) {
     setSearchInput(query);
     const hashtags = query.match(/#[a-z]+/gi)?.map(tag => tag.slice(1));
@@ -28,6 +29,7 @@ const SearchBar = ({setChats}) => {
       );
     setChats(filtered);
   }
+
   return (
     <OutsidePressHandler
       onOutsidePress={() => {
@@ -39,6 +41,7 @@ const SearchBar = ({setChats}) => {
           style={
             clicked ? styles.searchBar__clicked : styles.searchBar__unclicked
           }>
+          {/* SEARCH ICON */}
           <Icon
             name="search"
             size={clicked ? 24 : 34}
@@ -46,9 +49,12 @@ const SearchBar = ({setChats}) => {
             marginLeft={6}
             onPress={() => setClicked(true)}
           />
+
+          {/* INPUT FIELD*/}
           {clicked && (
             <TextInput
               style={[styles.input, {borderRadius: 15}]}
+              autoFocus
               placeholder="Search"
               placeholderTextColor={Colors.primaryColor}
               value={searchInput}
@@ -56,6 +62,8 @@ const SearchBar = ({setChats}) => {
             />
           )}
         </View>
+
+        {/* CLOSE ICON */}
         {clicked && (
           <Entypo
             name="cross"
@@ -64,7 +72,6 @@ const SearchBar = ({setChats}) => {
             style={{marginLeft: 5, marginRight: 4}}
             onPress={() => {
               Keyboard.dismiss();
-              // setSearchInput('');
               handleSearch('');
               setClicked(false);
             }}
@@ -80,7 +87,6 @@ export default SearchBar;
 const styles = StyleSheet.create({
   container: {
     padding: 0,
-    // marginVertical: 10,
     gap: 0,
     alignItems: 'center',
     flexDirection: 'row',
@@ -94,7 +100,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     flexDirection: 'row',
     backgroundColor: '#d9dbda',
-    // marginRight: 10,
     alignItems: 'center',
     width: 200,
   },

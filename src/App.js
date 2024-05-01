@@ -1,4 +1,4 @@
-import {Image, StatusBar, TouchableOpacity, View} from 'react-native';
+import {StatusBar} from 'react-native';
 import {Colors} from './theme/colors';
 import SignInScreen from './screens/SignInScreen';
 import {DefaultTheme, PaperProvider} from 'react-native-paper';
@@ -79,6 +79,7 @@ const Navigation = () => {
               options={{
                 statusBarColor: Colors.status,
                 statusBarStyle: 'light-content',
+                headerTintColor: Colors.white,
                 headerStyle: {
                   backgroundColor: Colors.status,
                 },

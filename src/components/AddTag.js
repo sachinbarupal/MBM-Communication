@@ -1,4 +1,4 @@
-import {FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {TextInput} from 'react-native-paper';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -54,24 +54,11 @@ export default function AddTag({
     Toast.show({
       text1: 'Tag Added Successfully',
       visibilityTime: 700,
-      onPress: () => Toast.hide(),
     });
   }
 
   return (
-    <View
-      style={{
-        height: '100%',
-        width: '100%',
-        zIndex: 100,
-        // backgroundColor: 'transparent',
-        // backfaceVisibility: 'hidden',
-        // backgroundColor: 'rgba(0,0,0,0.1)',
-        // filter: 'blur(10)',
-        display: 'flex',
-        justifyContent: 'flex-end',
-        // alignItems: 'center',
-      }}>
+    <View style={styles.wrapper}>
       {/*  CROSS BTN */}
       <Entypo
         name="cross"
@@ -96,21 +83,7 @@ export default function AddTag({
               <TouchableOpacity
                 key={tag.item.id}
                 onPress={() => addTag(tag.item.name)}>
-                <Text
-                  style={{
-                    color: 'black',
-                    // textAlign: 'center',
-                    paddingLeft: 20,
-                    paddingVertical: 10,
-                    backgroundColor: 'lightgrey',
-                    marginLeft: 'auto',
-                    marginRight: 'auto',
-                    width: '100%',
-                    // borderRadius: 5,
-                    borderBottomWidth: 1,
-                  }}>
-                  {tag.item.name}
-                </Text>
+                <Text style={styles.suggestionTag}>{tag.item.name}</Text>
               </TouchableOpacity>
             );
           }}
@@ -129,14 +102,35 @@ export default function AddTag({
             // Suggest Accordingly
             searchSuggestion(text);
           }}
-          style={{
-            zIndex: 200,
-            width: '100%',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-          }}
+          style={styles.input}
         />
       </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  suggestionTag: {
+    color: 'black',
+    paddingLeft: 20,
+    paddingVertical: 10,
+    backgroundColor: 'lightgrey',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '100%',
+    borderBottomWidth: 1,
+  },
+  input: {
+    zIndex: 200,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  wrapper: {
+    height: '100%',
+    width: '100%',
+    zIndex: 100,
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+});

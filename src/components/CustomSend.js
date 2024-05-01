@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import OutsidePressHandler from 'react-native-outside-press';
 import {Send} from 'react-native-gifted-chat';
@@ -15,40 +15,16 @@ export default function CustomSend({
   handleSend,
 }) {
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        height: 44,
-        rowGap: 24,
-        alignItems: 'center',
-      }}>
-      {toggleSendOptions ? (
-        <OutsidePressHandler onOutsidePress={() => setToggleSendOptions(false)}>
-          <View
-            style={{
-              zIndex: 1000,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              // padding: 20,
-              height: 120,
-              // paddingBottom: 10,
-
-              marginBottom: 85,
-              // marginRight: 5,
-              // backgroundColor: ',
-              marginRight: 0,
-              paddingHorizontal: 5,
-              backgroundColor: 'rgba(0,0,0,0.1)',
-              filter: 'blur(10)',
-              borderRadius: 10,
-              gap: 5,
-            }}>
+    <View style={styles.sendContainer}>
+      {/* Send Options  */}
+      {sendOptions ? (
+        <OutsidePressHandler onOutsidePress={() => setSendOptions(false)}>
+          <View style={styles.iconsContainer}>
             {/* OPEN CAMERA ICON */}
             <TouchableOpacity onPress={openCamera}>
               <Image
                 source={require('../assets/camera.png')}
-                style={{width: 32, height: 32}}
+                style={styles.icon}
               />
             </TouchableOpacity>
 
@@ -56,12 +32,7 @@ export default function CustomSend({
             <TouchableOpacity onPress={openGallery}>
               <Image
                 source={require('../assets/gallery.png')}
-                style={{
-                  width: 32,
-                  height: 32,
-                  // marginLeft: 8,
-                  // marginRight: 10,
-                }}
+                style={styles.icon}
               />
             </TouchableOpacity>
 
@@ -69,50 +40,33 @@ export default function CustomSend({
             <TouchableOpacity onPress={openGallery}>
               <Image
                 source={require('../assets/document.png')}
-                style={{
-                  width: 32,
-                  height: 32,
-                  // marginLeft: 8,
-                  // marginRight: 5,
-                }}
+                style={styles.icon}
               />
             </TouchableOpacity>
           </View>
         </OutsidePressHandler>
       ) : (
-        <TouchableOpacity onPress={() => setToggleSendOptions(true)}>
+        <TouchableOpacity onPress={() => setSendOptions(true)}>
           <Image
             source={require('../assets/attach.png')}
-            style={{
-              width: 32,
-              height: 32,
-              marginLeft: 8,
-              // marginRight: 10,
-            }}
+            style={[styles.icon, {marginLeft: 8}]}
           />
         </TouchableOpacity>
       )}
 
       {/* SHOW - UNSHOW TAG ICON */}
-      {/* <OutsidePressHandler onOutsidePress={() => setShowTag(false)}> */}
-      <TouchableOpacity onPress={() => setShowTag(!showTag)}>
+      <TouchableOpacity onPress={toggleShowTag}>
         <Image
           source={require('../assets/hashtag.png')}
-          style={{
-            width: 28,
-            height: 28,
-            marginLeft: 8,
-            marginRight: 8,
-          }}
+          style={styles.hashtagIcon}
         />
       </TouchableOpacity>
-      {/* </OutsidePressHandler> */}
 
       {/* SEND ICON */}
       <Send
         {...props}
         containerStyle={{justifyContent: 'center'}}
-        onSend={() => handleSend()}>
+        onSend={handleSend}>
         <Icon
           name="send"
           style={{marginRight: 10}}
@@ -130,5 +84,29 @@ const styles = StyleSheet.create({
     height: 44,
     rowGap: 24,
     alignItems: 'center',
+  },
+  iconsContainer: {
+    zIndex: 1000,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 120,
+    marginBottom: 85,
+    marginRight: 0,
+    paddingHorizontal: 5,
+    backgroundColor: 'rgba(0,0,0,0.1)',
+    filter: 'blur(10)',
+    borderRadius: 10,
+    gap: 5,
+  },
+  icon: {
+    width: 32,
+    height: 32,
+  },
+  hashtagIcon: {
+    width: 28,
+    height: 28,
+    marginLeft: 8,
+    marginRight: 8,
   },
 });

@@ -4,69 +4,36 @@ import {Colors} from '../theme/colors';
 
 export default function ProfileScreen({user, setUser}) {
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: Colors.white,
-      }}>
-      <View
-        style={{
-          width: '90%',
-          height: '80%',
-          marginTop: 50,
-          marginBottom: 20,
-          backgroundColor: Colors.white,
-          borderRadius: 12,
-          alignItems: 'center',
-          position: 'relative',
-          borderWidth: 0.5,
-
-          elevation: 10,
-        }}>
+    <View style={styles.wrapper}>
+      <View style={styles.profileContainer}>
         <Image
           source={{
             uri: `https://ui-avatars.com/api/?name=sac`,
           }}
-          style={{
-            width: 120,
-            height: 120,
-            borderRadius: 100,
-            top: -50,
-            borderWidth: 2,
-            borderColor: 'green',
-          }}
+          style={styles.profilePic}
         />
 
-        <View
-          style={{
-            gap: 25,
-            flexDirection: 'column',
-            alignItems: 'center',
-            // borderWidth: 1,
-            width: '85%',
-            // backgroundColor: 'lightgrey',
-            // paddingTop: 8,
-            // paddingBottom: 20,
-            // borderRadius: 10,
-          }}>
+        <View style={styles.detailContainer}>
           <View style={styles.detailBox}>
             <Text style={styles.detailTag}>User Name</Text>
             <Text style={styles.detail}>{user}</Text>
           </View>
+
           <View style={styles.detailBox}>
             <Text style={styles.detailTag}>Roll No.</Text>
             <Text style={styles.detail}>22UCSE4030</Text>
           </View>
+
           <View style={styles.detailBox}>
             <Text style={styles.detailTag}>Branch</Text>
             <Text style={styles.detail}>CSE</Text>
           </View>
+
           <View style={styles.detailBox}>
             <Text style={styles.detailTag}>Year</Text>
             <Text style={styles.detail}>{'III'}</Text>
           </View>
+
           <View style={styles.detailBox}>
             <Text style={styles.detailTag}>Date of Birth</Text>
             {user.name ? (
@@ -81,26 +48,17 @@ export default function ProfileScreen({user, setUser}) {
           </View>
         </View>
 
+        {/* LOG OUT BUTTON */}
         <TouchableOpacity
           onPress={() => setUser('')}
           style={styles.appButtonContainer}>
           <Text style={styles.appButtonText}>Log Out</Text>
         </TouchableOpacity>
       </View>
-      <Text style={{color: 'black', textAlign: 'center'}}>
-        ----------------
-      </Text>
-      <Text
-        style={{
-          color: 'black',
-          fontWeight: 'bold',
-          textAlign: 'center',
-        }}>
-        MBM Communication
-      </Text>
-      <Text style={{color: 'black', textAlign: 'center'}}>
-        ----------------
-      </Text>
+
+      <Text style={styles.dashLine}>----------------</Text>
+      <Text style={styles.text}>MBM Communication</Text>
+      <Text style={styles.dashLine}>----------------</Text>
     </View>
   );
 }
@@ -118,6 +76,12 @@ const styles = StyleSheet.create({
   appButtonText: {
     fontSize: 28,
     color: 'white',
+  },
+  detailContainer: {
+    gap: 25,
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '85%',
   },
   detailBox: {
     flexDirection: 'row',
@@ -137,4 +101,36 @@ const styles = StyleSheet.create({
     color: Colors.black,
     fontSize: 20,
   },
+  wrapper: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.white,
+  },
+  profileContainer: {
+    width: '90%',
+    height: '80%',
+    marginTop: 50,
+    marginBottom: 20,
+    backgroundColor: Colors.white,
+    borderRadius: 12,
+    alignItems: 'center',
+    position: 'relative',
+    borderWidth: 0.5,
+    elevation: 10,
+  },
+  profilePic: {
+    width: 120,
+    height: 120,
+    borderRadius: 100,
+    top: -50,
+    borderWidth: 2,
+    borderColor: 'green',
+  },
+  text: {
+    color: 'black',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  dashLine: {color: 'black', textAlign: 'center'},
 });

@@ -11,6 +11,7 @@ export default function SwipeMessage({props}) {
     isSameUser(props.currentMessage, props.nextMessage);
 
   const renderRightAction = (
+    // Animation Logic
     progressAnimatedValue = Animated.AnimatedInterpolation,
   ) => {
     const size = progressAnimatedValue.interpolate({
@@ -21,15 +22,17 @@ export default function SwipeMessage({props}) {
       inputRange: [0, 1, 2],
       outputRange: [0, -12, -20],
     });
+
+    // Components Here
     return (
       <Animated.View
         style={[
           styles.container,
           {transform: [{scale: size}, {translateX: trans}]},
-          // {borderWidth: 1},
           isNextMyMessage
             ? styles.defaultBottomOffset
             : styles.bottomOffsetNext,
+          props.position === 'right' && styles.leftOffSetValue,
         ]}>
         <View style={styles.replyIconContainer}>
           <Image
@@ -68,4 +71,5 @@ const styles = StyleSheet.create({
   },
   defaultBottomOffset: {marginBottom: 2},
   bottomOffsetNext: {marginBottom: 10},
+  leftOffsetValue: {marginLeft: 16},
 });

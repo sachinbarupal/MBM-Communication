@@ -25,13 +25,10 @@ export default function SignInScreen({setUser}) {
       <KeyboardAvoidingView style={styles.wrapper}>
         <TouchableOpacity
           onPress={() => setLogin(false)}
-          style={{
-            position: 'absolute',
-            top: 20,
-            right: 20,
-          }}>
+          style={styles.backIcon}>
           {login && <Icon name="back" color={Colors.black} size={38} />}
         </TouchableOpacity>
+
         <View>
           <Text style={styles.text}>Welcome To </Text>
           <Text
@@ -48,20 +45,19 @@ export default function SignInScreen({setUser}) {
         </View>
         {!login ? (
           <View>
+            {/* MOBILE NUMBER INPUT */}
             <TextInput
               value={mobileNumber}
               placeholder="Enter Mobile No."
-              // keyboardType="numeric"
-              // label="Mobile No."
               onChangeText={text => setMobileNumber(text)}
               mode="outlined"
               style={[styles.inputBG, {marginBottom: 20}]}
             />
+            {/* PASSWORD INPUT */}
             <TextInput
               mode="outlined"
               value={password}
               placeholder="Enter Password"
-              // label="Password"
               onChangeText={text => setPassword(text)}
               style={styles.inputBG}
               secureTextEntry
@@ -93,7 +89,6 @@ export default function SignInScreen({setUser}) {
             disabled={!mobileNumber || !password}
             style={styles.loginBtn}
             mode="contained"
-            // onPress={() => setLogin(true)}>
             onPress={() => {
               Keyboard.dismiss();
               setTimeout(() => setUser('Sachin'), 1000);
@@ -143,6 +138,10 @@ const styles = StyleSheet.create({
     marginTop: 50,
     marginHorizontal: 50,
     backgroundColor: Colors.foreground,
-    // color: 'black',
+  },
+  backIcon: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
   },
 });
