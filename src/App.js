@@ -11,6 +11,8 @@ import ChatScreen from './screens/ChatScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import Toast from 'react-native-toast-message';
 import {EventProvider} from 'react-native-outside-press';
+import {AuthProvider} from './context/AuthContext';
+import AppNav from './navigation/AppNav';
 const theme = {
   ...DefaultTheme,
   colors: {
@@ -111,16 +113,30 @@ const Navigation = () => {
   );
 };
 
+// export default function App() {
+//   return (
+//     <>
+//       <StatusBar backgroundColor={Colors.status} barStyle="light-content" />
+//       <PaperProvider theme={theme}>
+//         <EventProvider>
+//           <Navigation />
+//           <Toast />
+//         </EventProvider>
+//       </PaperProvider>
+//     </>
+//   );
+// }
 export default function App() {
   return (
-    <>
+    <AuthProvider>
       <StatusBar backgroundColor={Colors.status} barStyle="light-content" />
       <PaperProvider theme={theme}>
         <EventProvider>
-          <Navigation />
+          {/* <Navigation /> */}
+          <AppNav />
           <Toast />
         </EventProvider>
       </PaperProvider>
-    </>
+    </AuthProvider>
   );
 }

@@ -1,5 +1,12 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {Colors} from '../theme/colors';
 import {ChatListData} from '../data/ChatsData';
 import ChatCard from '../components/ChatCard';
@@ -8,7 +15,7 @@ import SearchBar from '../components/SearchBar';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 //HOME SCREEN
-export default function HomeScreen({navigation, user}) {
+export default function HomeScreen({navigation}) {
   const [chats, setChats] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -18,23 +25,34 @@ export default function HomeScreen({navigation, user}) {
     setLoading(false);
   };
 
+  useLayoutEffect(() => {
+    const setNavigationConfig = () => {
+      const navigationOptions = () => {
+        return {
+          headerRight: () => (
+            <View style={styles.headerRight}>
+              <SearchBar setChats={setChats} />
+              <Icon
+                name="account-circle"
+                size={34}
+                style={{paddingRight: 0}}
+                onPress={() => navigation.navigate('Profile Screen')}
+                color={Colors.white}
+              />
+            </View>
+          ),
+        };
+      };
+
+      navigation.setOptions(navigationOptions());
+    };
+
+    setNavigationConfig();
+  }, []);
+
   // USE EFFECT
   useEffect(() => {
-    getChats();
-    navigation.setOptions({
-      headerRight: () => (
-        <View style={styles.headerRight}>
-          <SearchBar setChats={setChats} />
-          <Icon
-            name="account-circle"
-            size={34}
-            style={{paddingRight: 0}}
-            onPress={() => navigation.navigate('Profile Screen')}
-            color={Colors.white}
-          />
-        </View>
-      ),
-    });
+    return getChats();
   }, []);
 
   if (loading)
@@ -52,18 +70,18 @@ export default function HomeScreen({navigation, user}) {
     <View style={styles.wrapper}>
       <FlatList
         data={chats}
-        renderItem={chat => {
-          if (chat.item.name !== user) {
-            return (
-              <ChatCard
-                key={chat.id}
-                chat={chat.item}
-                navigation={navigation}
-              />
-            );
-          }
-        }}
+        renderItem={chat => (
+          <ChatCard key={chat.id} chat={chat.item} navigation={navigation} />
+        )}
       />
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => navigation.navigate('New Message')}>
+        <Image
+          source={require('../assets/write.png')}
+          style={{height: 30, width: 30, height: 50, width: 50}}
+        />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -86,4 +104,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   emptyChat: {color: 'red', flex: 1, textAlign: 'center', marginTop: '100%'},
+  addButton: {
+    height: 60,
+    width: 60,
+    // backgroundColor: '#ccc',
+    // borderRadius: 50,
+    // padding: 5,
+    // marginTop: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 50,
+    backgroundColor: 'lightblue',
+    // padding: 5,
+    position: 'absolute',
+    bottom: 10, // Adjust the bottom value as needed
+    right: 10, //
+  },
 });

@@ -1,14 +1,18 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import {Colors} from '../theme/colors';
+import {AuthContext} from '../context/AuthContext';
 
-export default function ProfileScreen({user, setUser}) {
+export default function ProfileScreen() {
+  const {user, logout} = useContext(AuthContext);
+  let x = Math.floor(Math.random() * 50);
+  console.log(x);
   return (
     <View style={styles.wrapper}>
       <View style={styles.profileContainer}>
         <Image
           source={{
-            uri: `https://ui-avatars.com/api/?name=sac`,
+            uri: `https://xsgames.co/randomusers/assets/avatars/pixel/${x}.jpg`,
           }}
           style={styles.profilePic}
         />
@@ -16,42 +20,40 @@ export default function ProfileScreen({user, setUser}) {
         <View style={styles.detailContainer}>
           <View style={styles.detailBox}>
             <Text style={styles.detailTag}>User Name</Text>
-            <Text style={styles.detail}>{user}</Text>
+            <Text style={styles.detail}>user.name</Text>
           </View>
 
           <View style={styles.detailBox}>
             <Text style={styles.detailTag}>Roll No.</Text>
-            <Text style={styles.detail}>22UCSE4030</Text>
+            <Text style={styles.detail}>user.rollNo</Text>
           </View>
 
           <View style={styles.detailBox}>
             <Text style={styles.detailTag}>Branch</Text>
-            <Text style={styles.detail}>CSE</Text>
+            <Text style={styles.detail}>user.branch</Text>
           </View>
 
           <View style={styles.detailBox}>
             <Text style={styles.detailTag}>Year</Text>
-            <Text style={styles.detail}>{'III'}</Text>
+            <Text style={styles.detail}>user.year</Text>
           </View>
 
           <View style={styles.detailBox}>
             <Text style={styles.detailTag}>Date of Birth</Text>
-            {user.name ? (
-              <Text style={styles.detail}>{user.name}</Text>
-            ) : (
+            {/* {user.name ? ( */}
+            <Text style={styles.detail}>user.DoB</Text>
+            {/* ) : (
               <TouchableOpacity>
                 <Text style={[styles.detail, {color: 'red'}]}>
                   {'Enter DOB'}
                 </Text>
               </TouchableOpacity>
-            )}
+            )} */}
           </View>
         </View>
 
         {/* LOG OUT BUTTON */}
-        <TouchableOpacity
-          onPress={() => setUser('')}
-          style={styles.appButtonContainer}>
+        <TouchableOpacity onPress={logout} style={styles.appButtonContainer}>
           <Text style={styles.appButtonText}>Log Out</Text>
         </TouchableOpacity>
       </View>

@@ -68,8 +68,22 @@ export default function RemoveTags({
 }) {
   return (
     <View style={styles.wrapper}>
+      <TouchableOpacity onPress={() => setRemoveTag(false)}>
+        <Text
+          style={{
+            backgroundColor: 'transparent',
+            color: 'black',
+            marginLeft: 'auto',
+            paddingTop: 10,
+            marginRight: 10,
+            fontSize: 18,
+            // marb,
+          }}>
+          Close
+        </Text>
+      </TouchableOpacity>
       <OutsidePressHandler onOutsidePress={() => setRemoveTag(false)}>
-        <View>
+        <View style={{maxHeight: '96%', marginTop: 'auto'}}>
           {/* FLAT LIST TO SHOW ALL CURRENT TAGS */}
           <FlatList
             scrollEnabled
@@ -106,7 +120,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.1)',
     filter: 'blur(10)',
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
   },
   cardContainer: {
     flexDirection: 'row',

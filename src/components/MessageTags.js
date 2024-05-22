@@ -67,7 +67,7 @@ export default function Tags({tags, setAddTag, setRemoveTag}) {
 }
 
 const styles = StyleSheet.create({
-  tags: {color: 'blue', fontSize: 16, marginLeft: 5},
+  tags: {color: 'blue', fontSize: 16, marginLeft: 5, paddingBottom: 5},
   iconContainer: {
     flexDirection: 'row',
     backgroundColor: 'lightgrey',

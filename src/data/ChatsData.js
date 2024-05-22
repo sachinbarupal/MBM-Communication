@@ -33,7 +33,7 @@ export const ChatListData = [
     time: '9:42 AM',
     message: 'gud morning',
     mute: false,
-    tags: ['mbm', 'cse', 'a1'],
+    tags: ['mbm', 'a1'],
   },
 
   {
@@ -52,7 +52,7 @@ export const ChatListData = [
     time: '9:45 AM',
     message: 'Kr Dia Naah Praya',
     mute: false,
-    tags: [],
+    tags: ['mbm', 'cse'],
   },
   {
     id: 5,
@@ -61,7 +61,7 @@ export const ChatListData = [
     time: '9:46 AM',
     message: 'Shi hai Bhai Shi hai',
     mute: false,
-    tags: ['mohit'],
+    tags: ['mohit', 'mbm', 'cse'],
   },
   {
     id: 6,

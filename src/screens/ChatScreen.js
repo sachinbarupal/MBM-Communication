@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useEffect} from 'react';
+import React, {useState, useCallback, useEffect, useLayoutEffect} from 'react';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {
   Image,
@@ -14,6 +14,7 @@ import {
   Day,
   GiftedChat,
   InputToolbar,
+  Message,
 } from 'react-native-gifted-chat';
 import Tags from '../components/MessageTags';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -24,6 +25,7 @@ import {Menu, MenuDivider, MenuItem} from 'react-native-material-menu';
 import ReplyBar from '../components/ReplyBar';
 import CustomSend from '../components/CustomSend';
 import ReplyMessageBubble from '../components/ReplyMessageBubble';
+import CustomBubble from '../components/CustomBubble';
 
 export const HeaderRight = () => {
   const [visible, setVisible] = useState(false);
@@ -86,14 +88,33 @@ export default function ChatScreen({route, navigation}) {
   const [currentMsg, setCurrentMsg] = useState('');
   const [replyMsg, setReplyMsg] = useState(null);
 
+  useLayoutEffect(
+    () => navigation.setOptions({headerRight: HeaderRight, title: chat.name}),
+    [],
+  );
+
   // USE EFFECT
   useEffect(() => {
-    navigation.setOptions({headerRight: HeaderRight});
-
     setMessages([
+      {
+        _id: 'Hola',
+        likes: 1,
+        createdAt: new Date(),
+        image: '',
+        replyMessage: {
+          _id: 3,
+          // createdAt: '2024-05-01T10:02:34.958Z',
+          text: 'Hello Thereeeee !!!',
+          user: {_id: 3, avatar: 18, name: 'MBM'},
+        },
+        tags: ['mbm', 'news', 'official'],
+        text: 'Hola',
+        user: {_id: 1, avatar: 18},
+      },
       {
         _id: 9,
         text: 'Yesss!! 🔥',
+        likes: 1,
         user: {
           _id: 4,
           name: 'React Native',
@@ -103,6 +124,7 @@ export default function ChatScreen({route, navigation}) {
       },
       {
         _id: 2,
+
         text: 'This is a quick reply. Do you liked our work?',
         createdAt: new Date(),
         // received: true,
@@ -212,6 +234,7 @@ export default function ChatScreen({route, navigation}) {
 
   // HANDLE LONG PRESS
   function handleLongPress(context, message) {
+    // console.log(e.nativeEvent);
     Keyboard.dismiss();
     let options = [];
     if (message.tags?.length > 0) {
@@ -240,6 +263,26 @@ export default function ChatScreen({route, navigation}) {
         }
       },
     );
+  }
+
+  // HANDLE PRESS
+  function handlePress(context, message) {
+    // const newMessages = [...messages];
+    // const index = newMessages.findIndex(mes => mes._id === message._id);
+    // const si = newMessages.findIndex(mes => mes._id === 3);
+    // newMessages[si].text = 'herere';
+    // if(index > -1){
+    // newMessages[index].text = 'heheheh';
+    // ? newMessages[index].likes++
+    // : (newMessages[index].likes = 1);
+    // newMessages[index]._id = 15;
+    // console.log('newMessages', newMessages[index]);
+    // LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    // setMessages(newMessages);
+    // }
+    // if (message.likes) message.likes++;
+    // else message.likes = 1;
+    // setMessages(prev => )
   }
 
   // HANDLE SEND
@@ -271,9 +314,7 @@ export default function ChatScreen({route, navigation}) {
   }
 
   // SHOW UNSHOW TAG
-  function toggleShowTag() {
-    setShowTag(!showTag);
-  }
+  const toggleShowTag = () => setShowTag(!showTag);
 
   // MAIN Component
   return (
@@ -327,6 +368,7 @@ export default function ChatScreen({route, navigation}) {
             }}
           />
         )}
+        // renderBubble={props => <CustomBubble props={props} />}
         // SEND
         renderSend={props => (
           <CustomSend
@@ -353,8 +395,7 @@ export default function ChatScreen({route, navigation}) {
           <Tags setAddTag={setAddTag} setRemoveTag={setRemoveTag} tags={tags} />
         )}
         // Swipable Message
-        // renderMessage={props => <SwipeMessage props={props} />}
-
+        renderMessage={props => <Message {...props} />}
         // Reply Message
         renderCustomView={props => <ReplyMessageBubble props={props} />}
         // Reply Box
@@ -372,6 +413,9 @@ export default function ChatScreen({route, navigation}) {
         // Date
         renderDay={props => <Day {...props} textStyle={{color: 'black'}} />}
         alwaysShowSend
+        // renderAvatar={null}
+        // renderUsernameOnMessage
+        onPress={handlePress}
         isKeyboardInternallyHandled={false}
       />
     </View>
