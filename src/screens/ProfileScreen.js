@@ -6,7 +6,7 @@ import {AuthContext} from '../context/AuthContext';
 export default function ProfileScreen() {
   const {user, logout} = useContext(AuthContext);
   let x = Math.floor(Math.random() * 50);
-  console.log(x);
+  // console.log(x);
   return (
     <View style={styles.wrapper}>
       <View style={styles.profileContainer}>
@@ -20,28 +20,28 @@ export default function ProfileScreen() {
         <View style={styles.detailContainer}>
           <View style={styles.detailBox}>
             <Text style={styles.detailTag}>User Name</Text>
-            <Text style={styles.detail}>user.name</Text>
+            <Text style={styles.detail}>Test User</Text>
           </View>
 
           <View style={styles.detailBox}>
             <Text style={styles.detailTag}>Roll No.</Text>
-            <Text style={styles.detail}>user.rollNo</Text>
+            <Text style={styles.detail}>22UCS4030</Text>
           </View>
 
           <View style={styles.detailBox}>
             <Text style={styles.detailTag}>Branch</Text>
-            <Text style={styles.detail}>user.branch</Text>
+            <Text style={styles.detail}>CSE</Text>
           </View>
 
           <View style={styles.detailBox}>
             <Text style={styles.detailTag}>Year</Text>
-            <Text style={styles.detail}>user.year</Text>
+            <Text style={styles.detail}>2025</Text>
           </View>
 
           <View style={styles.detailBox}>
             <Text style={styles.detailTag}>Date of Birth</Text>
             {/* {user.name ? ( */}
-            <Text style={styles.detail}>user.DoB</Text>
+            <Text style={styles.detail}>8/12/2003</Text>
             {/* ) : (
               <TouchableOpacity>
                 <Text style={[styles.detail, {color: 'red'}]}>

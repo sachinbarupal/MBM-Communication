@@ -15,6 +15,7 @@ import {
   GiftedChat,
   InputToolbar,
   Message,
+  SystemMessage,
 } from 'react-native-gifted-chat';
 import Tags from '../components/MessageTags';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -57,11 +58,11 @@ export const HeaderRight = () => {
           <MenuDivider />
 
           <MenuItem textStyle={{color: 'black'}} onPress={toggle}>
-            UNSUBSCRIBE{'    '}
-            <Image
+            UNSUBSCRIBE
+            {/* <Image
               source={require('../assets/minus.png')}
               style={{width: 15, height: 15}}
-            />
+            /> */}
           </MenuItem>
         </Menu>
       )}
@@ -104,11 +105,11 @@ export default function ChatScreen({route, navigation}) {
         replyMessage: {
           _id: 3,
           // createdAt: '2024-05-01T10:02:34.958Z',
-          text: 'Hello Thereeeee !!!',
+          text: 'Yesss!! 🔥',
           user: {_id: 3, avatar: 18, name: 'MBM'},
         },
         tags: ['mbm', 'news', 'official'],
-        text: 'Hola',
+        text: 'Reply to Message Demo',
         user: {_id: 1, avatar: 18},
       },
       {
@@ -150,19 +151,19 @@ export default function ChatScreen({route, navigation}) {
           name: 'Sachin',
         },
       },
-      {
-        _id: 1,
-        text: 'Hello developer',
-        // received: true,
-        // sent: true,
-        // image:
-        //   'https://upload.wikimedia.org/wikipedia/commons/9/96/MBM_Logo.png',
-        createdAt: new Date(),
-        user: {_id: 3, name: chat.name, avatar: chat.profile},
-      },
+      // {
+      //   _id: 1,
+      //   text: 'Hello developer',
+      //   // received: true,
+      //   // sent: true,
+      //   // image:
+      //   //   'https://upload.wikimedia.org/wikipedia/commons/9/96/MBM_Logo.png',
+      //   createdAt: new Date(),
+      //   user: {_id: 3, name: chat.name, avatar: chat.profile},
+      // },
       {
         _id: 3,
-        text: 'Hello Thereeeee !!!',
+        text: 'MBM Communication App Demo',
         createdAt: new Date(),
         // received: true,
         // quickReplies: {
@@ -417,6 +418,19 @@ export default function ChatScreen({route, navigation}) {
         // renderUsernameOnMessage
         onPress={handlePress}
         isKeyboardInternallyHandled={false}
+        renderSystemMessage={props => (
+          <SystemMessage
+            {...props}
+            containerStyle={{
+              // backgroundColor: Colors.background,
+              width: '90%',
+              alignSelf: 'center',
+              borderRadius: 10,
+              padding: 2,
+            }}
+            textStyle={{color: 'black', fontSize: 20, fontWeight: '500'}}
+          />
+        )}
       />
     </View>
   );
@@ -436,20 +450,6 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
   },
 });
-
-// renderSystemMessage={props => (
-//   <SystemMessage
-//     {...props}
-//     containerStyle={{
-//       backgroundColor: Colors.background,
-//       width: '90%',
-//       alignSelf: 'center',
-//       borderRadius: 10,
-//       padding: 2,
-//     }}
-//     textStyle={{color: 'black', fontSize: 20, fontWeight: '500'}}
-//   />
-// )}
 
 // renderTicks={message => {
 //   if (message.pending)

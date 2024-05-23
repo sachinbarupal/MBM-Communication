@@ -1,202 +1,202 @@
 export const allTags = [
   {
     id: 0,
-    name: 'Marta',
+    name: 'MBM',
   },
   {
     id: 1,
-    name: 'Berg',
+    name: 'CSE',
   },
   {
     id: 2,
-    name: 'Beulah',
+    name: '2025',
   },
   {
     id: 3,
-    name: 'Latisha',
+    name: '2024',
   },
   {
     id: 4,
-    name: 'Florine',
+    name: '2026',
   },
   {
     id: 5,
-    name: 'Muriel',
+    name: '2027',
   },
   {
     id: 6,
-    name: 'Spears',
+    name: 'CIVIL',
   },
   {
     id: 7,
-    name: 'Conrad',
+    name: 'CHE',
   },
   {
     id: 8,
-    name: 'Carmela',
+    name: 'Fest',
   },
   {
     id: 9,
-    name: 'Ericka',
+    name: 'ENCARTA',
   },
   {
     id: 10,
-    name: 'Concepcion',
+    name: 'Club',
   },
   {
     id: 11,
-    name: 'Gilbert',
+    name: 'Alankaar',
   },
   {
     id: 12,
-    name: 'Battle',
+    name: 'TPO',
   },
   {
     id: 13,
-    name: 'Fields',
+    name: 'Scholarship',
   },
   {
     id: 14,
-    name: 'Shelley',
+    name: 'News',
   },
   {
     id: 15,
-    name: 'Courtney',
+    name: 'Official',
   },
   {
     id: 16,
-    name: 'Petra',
+    name: 'MECH',
   },
   {
     id: 17,
-    name: 'Augusta',
+    name: 'ECE',
   },
   {
     id: 18,
-    name: 'Lindsay',
+    name: 'ECC',
   },
   {
     id: 19,
-    name: 'Rosa',
+    name: 'MINING',
   },
   {
     id: 20,
-    name: 'Eugenia',
+    name: 'ARCH',
   },
   {
     id: 21,
-    name: 'Edith',
+    name: 'Debate',
   },
   {
     id: 22,
-    name: 'Jacobs',
+    name: 'DSA',
   },
   {
     id: 23,
-    name: 'Rosario',
+    name: 'CP',
   },
   {
     id: 24,
-    name: 'Trina',
+    name: 'GDSC',
   },
   {
     id: 25,
-    name: 'Catherine',
+    name: 'DEV',
   },
   {
     id: 26,
-    name: 'Rena',
+    name: 'Placement',
   },
   {
     id: 27,
-    name: 'Dunlap',
+    name: 'Achievements',
   },
   {
     id: 28,
-    name: 'Mable',
+    name: 'Alumni',
   },
   {
     id: 29,
-    name: 'Roslyn',
+    name: 'Meet',
   },
   {
     id: 30,
-    name: 'Lelia',
+    name: 'Class',
   },
   {
     id: 31,
-    name: 'Dixon',
+    name: 'Holiday',
   },
   {
     id: 32,
-    name: 'Brittney',
+    name: 'Result',
   },
   {
     id: 33,
-    name: 'Shirley',
+    name: 'P&I',
   },
   {
     id: 34,
-    name: 'Janell',
+    name: 'IT',
   },
   {
     id: 35,
-    name: 'Mccarthy',
+    name: 'AI&DS',
   },
   {
     id: 36,
-    name: 'Hayden',
+    name: 'Petro',
   },
   {
     id: 37,
-    name: 'Rasmussen',
+    name: 'All',
   },
   {
     id: 38,
-    name: 'Wolf',
+    name: 'Miscelleneous',
   },
-  {
-    id: 39,
-    name: 'Gay',
-  },
-  {
-    id: 40,
-    name: 'Nona',
-  },
-  {
-    id: 41,
-    name: 'Pace',
-  },
-  {
-    id: 42,
-    name: 'Tanner',
-  },
-  {
-    id: 43,
-    name: 'Effie',
-  },
-  {
-    id: 44,
-    name: 'Moody',
-  },
-  {
-    id: 45,
-    name: 'Barlow',
-  },
-  {
-    id: 46,
-    name: 'Booker',
-  },
-  {
-    id: 47,
-    name: 'Lina',
-  },
-  {
-    id: 48,
-    name: 'Cornelia',
-  },
-  {
-    id: 49,
-    name: 'Eloise',
-  },
+  // {
+  //   id: 39,
+  //   name: 'Gay',
+  // },
+  // {
+  //   id: 40,
+  //   name: 'Nona',
+  // },
+  // {
+  //   id: 41,
+  //   name: 'Pace',
+  // },
+  // {
+  //   id: 42,
+  //   name: 'Tanner',
+  // },
+  // {
+  //   id: 43,
+  //   name: 'Effie',
+  // },
+  // {
+  //   id: 44,
+  //   name: 'Moody',
+  // },
+  // {
+  //   id: 45,
+  //   name: 'Barlow',
+  // },
+  // {
+  //   id: 46,
+  //   name: 'Booker',
+  // },
+  // {
+  //   id: 47,
+  //   name: 'Lina',
+  // },
+  // {
+  //   id: 48,
+  //   name: 'Cornelia',
+  // },
+  // {
+  //   id: 49,
+  //   name: 'Eloise',
+  // },
 ];

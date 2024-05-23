@@ -15,10 +15,12 @@ export default function TagScreen({route, navigation}) {
 
   return (
     <View style={{flex: 1}}>
-      <View style={{marginLeft: 10, marginTop: 10}}>
-        <Text style={{fontStyle: 'italic', fontWeight: 'bold', color: 'black'}}>
+      <View
+      //  style={{marginLeft: 10, marginTop: 10}}
+      >
+        {/* <Text style={{fontStyle: 'italic', fontWeight: 'bold', color: 'black'}}>
           Hii! Here You can directly access chats associated with their tag
-        </Text>
+        </Text> */}
         <View style={styles.tag}>
           <Text style={{color: 'black'}}>#{tag}</Text>
         </View>
@@ -34,7 +36,15 @@ export default function TagScreen({route, navigation}) {
             const {id, tags, name, profile} = item;
             if (tags && tags.includes(tag)) {
               return (
-                <View style={{marginRight: 5, marginBottom: 3}}>
+                <View
+                  style={{
+                    marginRight: 5,
+                    marginBottom: 3,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    paddingTop: 10,
+                    // backgroundColor: 'blue',
+                  }}>
                   <TouchableOpacity key={id} onPress={() => goToChat(item)}>
                     <Image source={profile} style={styles.userImage} />
                   </TouchableOpacity>
@@ -45,6 +55,10 @@ export default function TagScreen({route, navigation}) {
           }}
         />
       </View>
+
+      {/* <View> */}
+      {/* <Text style={{color: 'black'}}>Group Name</Text> */}
+      {/* </View> */}
 
       <View style={styles.logo}>
         <Image source={logo} style={{height: 300, width: 300}}></Image>
@@ -70,6 +84,7 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     borderRadius: 50,
+    // backgroundColor: 'blue',
   },
   container: {
     flexGrow: 1,
@@ -78,21 +93,26 @@ const styles = StyleSheet.create({
   },
   nameText: {
     fontWeight: 'bold',
-    marginLeft: 30,
+    // marginLeft: 30,
     color: 'black',
     marginTop: 10,
   },
   listContainer: {
-    marginTop: 50,
+    marginTop: 20,
     marginBottom: 50,
+    marginLeft: 10,
+    marginRight: 10,
   },
   tag: {
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 10,
     borderRadius: 100,
     borderWidth: 1,
-    marginRight: 10,
+    width: '90%',
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    // marginRight: 10,
   },
 });
