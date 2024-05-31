@@ -35,6 +35,7 @@ const NewMessage = ({navigation}) => {
   const [showTag, setShowTag] = useState(false);
   const [removeTag, setRemoveTag] = useState(false);
   const [img, setImg] = useState('');
+  const [message, setMessage] = useState('s');
 
   const toggleShowTag = () => setShowTag(!showTag);
 
@@ -86,6 +87,10 @@ const NewMessage = ({navigation}) => {
       ) : (
         <>
           <TextInput
+            // onChange={text => setMessage(text)}
+            // value={message}
+            onChangeText={newText => setMessage(newText)}
+            defaultValue={message}
             autoFocus
             multiline
             placeholder="Enter Message"
